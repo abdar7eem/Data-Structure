@@ -1,0 +1,52 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+public class PostfixEvaluator {
+
+    public static boolean isOperator(char ch) {
+        return ch == '+' || ch == '-' || ch == '*' || ch == '/';
+    }
+
+    public static int performOperation(int op1, int op2, char op) {
+        int ans = 0;
+        switch (op) {
+            case '+':
+                ans = op2 + op1;
+                break;
+            case '-':
+                ans = op2 - op1;
+                break;
+            case '*':
+                ans = op2 * op1;
+                break;
+            case '/':
+                ans = op2 / op1;
+                break;
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Stack<Integer> stack = new Stack<>();
+        
+        System.out.println("Enter a Postfix Expression: (e.g., 4 5 *)");
+        String expression = scanner.nextLine();
+        
+        String[] tokens = expression.split(" ");
+        
+        for (String token : tokens) {
+            if (token.length() == 1 && isOperator(token.charAt(0))) {
+                int op1 = stack.pop();
+                int op2 = stack.pop();
+                stack.push(performOperation(op1, op2, token.charAt(0)));
+            } else {
+                stack.push(Integer.parseInt(token));
+            }
+        }
+        
+        System.out.println("Answer = " + stack.pop());
+        
+        scanner.close();
+    }
+}
