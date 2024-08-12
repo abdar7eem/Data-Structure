@@ -1,0 +1,84 @@
+import java.util.Stack;
+
+public class InfixToPostfixConverter {
+
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        System.out.println("Enter Infix Expression:");
+        String expression = scanner.nextLine();
+        scanner.close();
+        String postfix = infixToPostfix(expression);
+        System.out.println("Output = " + postfix);
+    }
+
+    public static String infixToPostfix(String expression) {
+        Stack<Character> stack = new Stack<>();
+        StringBuilder postfix = new StringBuilder();
+        
+        for (int i = 0; i < expression.length(); i++) {
+            char ch = expression.charAt(i);
+
+            if (ch == ' ' || ch == ',') continue;
+
+            if (isOperator(ch)) {
+                while (!stack.isEmpty() && stack.peek() != '(' &&
+                       hasHigherPrecedence(stack.peek(), ch)) {
+                    postfix.append(stack.pop());
+                }
+                stack.push(ch);
+            } else if (isOperand(ch)) {
+                postfix.append(ch);
+            } else if (ch == '(') {
+                stack.push(ch);
+            } else if (ch == ')') {
+                while (!stack.isEmpty() && stack.peek() != '(') {
+                    postfix.append(stack.pop());
+                }
+                stack.pop();
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            postfix.append(stack.pop());
+        }
+
+        return postfix.toString();
+    }
+
+    public static boolean isOperand(char c) {
+        return Character.isLetterOrDigit(c);
+    }
+
+    public static boolean isOperator(char c) {
+        return c == '+' || c == '-' || c == '*' || c == '/' || c == '$';
+    }
+
+    public static boolean isRightAssociative(char op) {
+        return op == '$';
+    }
+
+    public static int getOperatorWeight(char op) {
+        switch (op) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            case '$':
+                return 3;
+            default:
+                return -1;
+        }
+    }
+
+    public static boolean hasHigherPrecedence(char op1, char op2) {
+        int op1Weight = getOperatorWeight(op1);
+        int op2Weight = getOperatorWeight(op2);
+
+        if (op1Weight == op2Weight) {
+            return !isRightAssociative(op1);
+        }
+        return op1Weight > op2Weight;
+    }
+}
