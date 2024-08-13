@@ -21,19 +21,14 @@
 <div align="left">
   <img src="https://github.com/abdar7eem/Data-Structure/blob/main/java-svgrepo-com.svg" height="40" alt="java logo"  />
   <img width="12" />
-  <img src="[https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg](https://github.com/abdar7eem/Data-Structure/blob/main/language-xml-svgrepo-com.svg)" height="40" alt="C++ logo"  />
+  <img src="https://github.com/abdar7eem/Data-Structure/blob/main/language-xml-svgrepo-com.svg" height="40" alt="C++ logo"  />
   <img width="12" />
-  <img src="[https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg](https://github.com/abdar7eem/Data-Structure/blob/main/html-5-svgrepo-com.svg)" height="40" alt="react logo"  />
+  <img src="https://github.com/abdar7eem/Data-Structure/blob/main/html-5-svgrepo-com.svg" height="40" alt="HTML logo"  />
   <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" height="40" alt="nextjs logo"  />
+  <img src="https://github.com/abdar7eem/Data-Structure/blob/main/css-3-svgrepo-com.svg" height="40" alt="CSS logo"  />
   <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/storybook/storybook-original.svg" height="40" alt="storybook logo"  />
+  <img src="https://github.com/abdar7eem/Data-Structure/blob/main/language-xml-svgrepo-com.svg" height="40" alt="C logo"  />
   <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" height="40" alt="nodejs logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-plain.svg" height="40" alt="nestjs logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" height="40" alt="jest logo"  />
 </div>
 
 ###
