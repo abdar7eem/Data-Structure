@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class LinearSearchExample {
+
+    public static void main(String[] args) {
+        int[] arr = {90, 10, 40, 70, 5};
+        int n = arr.length;
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter an Integer: ");
+        int num = scanner.nextInt();
+        scanner.close();
+
+        int result = linearSearch(arr, n, num);
+        if (result == -1) {
+            System.out.println("The Number : (" + num + ") Was Not Found.");
+        } else {
+            System.out.println("The Number : (" + arr[result] + ") Was Found At Index : (" + result + ")");
+        }
+    }
+
+    public static int linearSearch(int[] arr, int n, int key) {
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == key) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
