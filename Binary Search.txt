@@ -1,0 +1,37 @@
+import java.util.Scanner;
+
+public class BinarySearch {
+
+    public static int binarySearch(int arr[], int l, int h, int element) {
+        while (l <= h) {
+            int m = (l + h) / 2;
+
+            if (arr[m] == element)
+                return m;
+
+            if (arr[m] > element)
+                h = m - 1;
+            else
+                l = m + 1;
+        }
+
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int arr[] = {2, 3, 4, 10, 40};
+        int n = arr.length;
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter an Integer: ");
+        int num = scanner.nextInt();
+
+        int result = binarySearch(arr, 0, n - 1, num);
+        if (result == -1)
+            System.out.println("The Number: (" + num + ") Was Not Found.");
+        else
+            System.out.println("The Number: (" + arr[result] + ") Was Found At Index: (" + result + ")");
+        
+        scanner.close();
+    }
+}
