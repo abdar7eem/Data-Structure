@@ -1,0 +1,85 @@
+public class QuickSort {
+
+    private static int partition1(int[] arr, int l, int h) {
+        int p = arr[l];
+        int i = l;
+        int j = h;
+        while (i < j) {
+            do {
+                i++;
+            } while (i <= h && arr[i] <= p);
+            do {
+                j--;
+            } while (j >= l && arr[j] > p);
+
+            if (i < j) {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        int temp = arr[l];
+        arr[l] = arr[j];
+        arr[j] = temp;
+        return j;
+    }
+
+    private static void quickSort1(int[] arr, int l, int h) {
+        if (l < h) {
+            int piv = partition1(arr, l, h);
+            quickSort1(arr, l, piv);
+            quickSort1(arr, piv + 1, h);
+        }
+    }
+
+    private static int partition2(int[] arr, int iBegin, int jEnd) {
+        int i = iBegin;
+        int j = jEnd;
+        int pivLoc = iBegin;
+        while (true) {
+            while (arr[pivLoc] <= arr[j] && pivLoc != j) {
+                j--;
+            }
+            if (pivLoc == j) {
+                break;
+            } else if (arr[pivLoc] > arr[j]) {
+                int temp = arr[j];
+                arr[j] = arr[pivLoc];
+                arr[pivLoc] = temp;
+                pivLoc = j;
+            }
+
+            while (arr[pivLoc] >= arr[i] && pivLoc != i) {
+                i++;
+            }
+            if (pivLoc == i) {
+                break;
+            } else if (arr[pivLoc] < arr[i]) {
+                int temp = arr[i];
+                arr[i] = arr[pivLoc];
+                arr[pivLoc] = temp;
+                pivLoc = i;
+            }
+        }
+        return pivLoc;
+    }
+
+    private static void quickSort2(int[] arr, int l, int h) {
+        if (l < h) {
+            int piv = partition2(arr, l, h);
+            quickSort2(arr, l, piv - 1);
+            quickSort2(arr, piv + 1, h);
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {2, -1, 4, 7, 0};
+        int n = arr.length;
+
+        quickSort2(arr, 0, n - 1);
+
+        for (int i : arr) {
+            System.out.print(i + " ");
+        }
+    }
+}
