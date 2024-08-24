@@ -1,0 +1,269 @@
+public class LinkedList {
+    private Node first, last;
+    private int length;
+
+    private static class Node {
+        int info;
+        Node next;
+
+        Node(int info) {
+            this.info = info;
+            this.next = null;
+        }
+    }
+
+    public LinkedList() {
+        first = last = null;
+        length = 0;
+    }
+
+    public int listSize() {
+        return length;
+    }
+
+    public boolean isEmpty() {
+        return length == 0;
+    }
+
+    public int seqSearch(int item) {
+        Node current = first;
+        int loc = 0;
+        while (current != null) {
+            if (current.info == item) return loc;
+            current = current.next;
+            loc++;
+        }
+        return -1;
+    }
+
+    public void remove(int item) {
+        if (isEmpty()) {
+            System.out.println("Cannot remove from empty list");
+            return;
+        }
+
+        Node current, trailCurrent;
+        if (first.info == item) { // delete the first element, special case
+            current = first;
+            first = first.next;
+            if (length == 1) last = null;
+            length--;
+        } else {
+            current = first.next;
+            trailCurrent = first;
+            while (current != null) {
+                if (current.info == item) break;
+                trailCurrent = current;
+                current = current.next;
+            }
+
+            if (current == null) {
+                System.out.println("The item is not there");
+            } else {
+                trailCurrent.next = current.next;
+                if (last == current) last = trailCurrent;
+                length--;
+            }
+        }
+    }
+
+    public void insertFirst(int item) {
+        Node newNode = new Node(item);
+        if (length == 0) {
+            first = last = newNode;
+        } else {
+            newNode.next = first;
+            first = newNode;
+        }
+        length++;
+    }
+
+    public void insertEnd(int item) {
+        Node newNode = new Node(item);
+        if (length == 0) {
+            first = last = newNode;
+        } else {
+            last.next = newNode;
+            last = newNode;
+        }
+        length++;
+    }
+
+    public void insertAt(int loc, int item) {
+        if (loc < 0 || loc > length) {
+            System.out.println("ERROR: Out of range");
+            return;
+        }
+        if (loc == 0) {
+            insertFirst(item);
+        } else if (loc == length) {
+            insertEnd(item);
+        } else {
+            Node newNode = new Node(item);
+            Node current = first;
+            for (int i = 1; i < loc; i++) {
+                current = current.next;
+            }
+            newNode.next = current.next;
+            current.next = newNode;
+            length++;
+        }
+    }
+
+    public void removeAt(int loc) {
+        if (loc < 0 || loc >= length) {
+            System.out.println("ERROR: Out of range");
+            return;
+        }
+        if (loc == 0) {
+            removeFirst();
+        } else {
+            Node current = first;
+            Node trailCurrent = null;
+            for (int i = 0; i < loc; i++) {
+                trailCurrent = current;
+                current = current.next;
+            }
+            trailCurrent.next = current.next;
+            if (last == current) last = trailCurrent;
+            length--;
+        }
+    }
+
+    public void print() {
+        Node current = first;
+        while (current != null) {
+            System.out.println(current.info);
+            current = current.next;
+        }
+    }
+
+    public void clearList() {
+        Node current;
+        while (first != null) {
+            current = first;
+            first = first.next;
+            current = null; // Help GC
+        }
+        last = null;
+        length = 0;
+    }
+
+    public void insertOrdered(int item) {
+        Node newNode = new Node(item);
+        if (first == null) {
+            first = last = newNode;
+        } else if (first.info >= item) {
+            newNode.next = first;
+            first = newNode;
+        } else {
+            Node current = first.next;
+            Node trailCurrent = first;
+            while (current != null) {
+                if (current.info >= item) break;
+                trailCurrent = current;
+                current = current.next;
+            }
+            if (current == null) {
+                last.next = newNode;
+                last = newNode;
+            } else {
+                trailCurrent.next = newNode;
+                newNode.next = current;
+            }
+        }
+        length++;
+    }
+
+    public void reverse() {
+        Node prev = null, next = null, curr = first;
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        first = prev;
+    }
+
+    public void removeFirst() {
+        if (length == 0) {
+            System.out.println("ERROR: EMPTY LIST");
+        } else if (length == 1) {
+            first = last = null;
+            length--;
+        } else {
+            Node current = first;
+            first = first.next;
+            current = null; // Help GC
+            length--;
+        }
+    }
+
+    public void removeLast() {
+        if (length == 0) {
+            System.out.println("ERROR: EMPTY LIST");
+        } else if (length == 1) {
+            removeFirst();
+        } else {
+            Node current = first;
+            while (current.next != last) {
+                current = current.next;
+            }
+            current.next = null;
+            last = current;
+            length--;
+        }
+    }
+
+    public void removeLast2() {
+        if (length == 0) {
+            System.out.println("ERROR: EMPTY LIST");
+        } else if (length == 1) {
+            removeFirst();
+        } else {
+            Node current = first;
+            while (current.next != last) {
+                current = current.next;
+            }
+            current.next = null;
+            last = current;
+            length--;
+        }
+    }
+
+    public int removeOddSumEven() {
+        int sum = first.info;
+        Node current = first.next;
+        Node trailCurrent = first;
+
+        while (current != null) {
+            if (current.info % 2 == 0) {
+                sum += current.info;
+                trailCurrent = current;
+                current = current.next;
+            } else {
+                trailCurrent.next = current.next;
+                current = null; // Help GC
+                length--;
+                current = trailCurrent.next;
+            }
+        }
+        return sum;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        clearList();
+        super.finalize();
+    }
+
+    public static void main(String[] args) {
+        LinkedList l1 = new LinkedList();
+        l1.insertAt(0, 10);
+        l1.insertAt(1, 15);
+        l1.insertAt(2, 20);
+        l1.insertAt(3, 25);
+        l1.print();
+    }
+}
