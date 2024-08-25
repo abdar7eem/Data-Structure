@@ -1,0 +1,113 @@
+import java.util.NoSuchElementException;
+
+public class LinkedQueue {
+    private static class Node {
+        int item;
+        Node next;
+
+        Node(int item) {
+            this.item = item;
+            this.next = null;
+        }
+    }
+
+    private int length;
+    private Node frontPtr, rearPtr;
+
+    public LinkedQueue() {
+        frontPtr = rearPtr = null;
+        length = 0;
+    }
+
+    public boolean isEmpty() {
+        return length == 0;
+    }
+
+    public void enqueue(int item) {
+        Node newNode = new Node(item);
+        if (length == 0) {
+            frontPtr = rearPtr = newNode;
+        } else {
+            rearPtr.next = newNode;
+            rearPtr = newNode;
+        }
+        length++;
+    }
+
+    public void dequeue() {
+        if (isEmpty()) {
+            System.out.println("Empty Queue");
+        } else if (length == 1) {
+            frontPtr = rearPtr = null;
+            length = 0;
+        } else {
+            Node current = frontPtr;
+            frontPtr = frontPtr.next;
+            current = null; // Help GC
+            length--;
+        }
+    }
+
+    public int front() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        }
+        return frontPtr.item;
+    }
+
+    public int rear() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        }
+        return rearPtr.item;
+    }
+
+    public void clearQueue() {
+        Node current;
+        while (frontPtr != null) {
+            current = frontPtr;
+            frontPtr = frontPtr.next;
+            current = null; // Help GC
+        }
+        rearPtr = null;
+        length = 0;
+    }
+
+    public void display() {
+        Node cur = frontPtr;
+        System.out.print("Items in the queue: [ ");
+        while (cur != null) {
+            System.out.print(cur.item + " ");
+            cur = cur.next;
+        }
+        System.out.println("]");
+    }
+
+    public void search(int item) {
+        Node cur = frontPtr;
+        boolean found = false;
+        while (cur != null) {
+            if (cur.item == item) {
+                System.out.println("The item: " + item + " found");
+                found = true;
+                break;
+            }
+            cur = cur.next;
+        }
+        if (!found) {
+            System.out.println("The item: " + item + " not found");
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedQueue q1 = new LinkedQueue();
+
+        for (int i = 1; i <= 20; i++) {
+            q1.enqueue(i);
+        }
+
+        System.out.println("Front: " + q1.front());
+        System.out.println("Rear: " + q1.rear());
+        q1.display();
+    }
+}
