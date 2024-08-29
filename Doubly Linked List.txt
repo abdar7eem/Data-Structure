@@ -1,0 +1,203 @@
+public class DoublyLinkedList {
+    private class Node {
+        int item;
+        Node next;
+        Node prev;
+    }
+
+    private Node first;
+    private Node last;
+    private int count;
+
+    public DoublyLinkedList() {
+        first = null;
+        last = null;
+        count = 0;
+    }
+
+    public boolean isEmpty() {
+        return first == null;
+    }
+
+    public void destroy() {
+        while (first != null) {
+            Node temp = first;
+            first = first.next;
+            temp = null; // For garbage collection
+        }
+        last = null;
+        count = 0;
+    }
+
+    public void insertLast(int val) {
+        Node newNode = new Node();
+        newNode.item = val;
+        if (count == 0) {
+            first = last = newNode;
+            newNode.next = newNode.prev = null;
+        } else {
+            newNode.next = null;
+            newNode.prev = last;
+            last.next = newNode;
+            last = newNode;
+        }
+        count++;
+    }
+
+    public void insertFirst(int item) {
+        Node newNode = new Node();
+        newNode.item = item;
+        if (count == 0) {
+            first = last = newNode;
+            newNode.next = newNode.prev = null;
+        } else {
+            newNode.next = first;
+            newNode.prev = null;
+            first.prev = newNode;
+            first = newNode;
+        }
+        count++;
+    }
+
+    public void insertAt(int pos, int item) {
+        if (pos < 0 || pos > count) {
+            System.out.println("Out Of Range ...!");
+        } else {
+            if (pos == 0) {
+                insertFirst(item);
+            } else if (pos == count) {
+                insertLast(item);
+            } else {
+                Node newNode = new Node();
+                newNode.item = item;
+                Node current = first;
+                for (int i = 1; i < pos; i++) {
+                    current = current.next;
+                }
+                newNode.next = current.next;
+                newNode.prev = current;
+                current.next.prev = newNode;
+                current.next = newNode;
+                count++;
+            }
+        }
+    }
+
+    public void removeFirst() {
+        if (count == 0) {
+            System.out.println("Empty List");
+        } else if (count == 1) {
+            first = last = null;
+            count--;
+        } else {
+            Node current = first;
+            first = first.next;
+            first.prev = null;
+            current = null;
+            count--;
+        }
+    }
+
+    public void removeLast() {
+        if (count == 0) {
+            System.out.println("Empty List");
+        } else if (count == 1) {
+            first = last = null;
+            count--;
+        } else {
+            Node current = last;
+            last = last.prev;
+            last.next = null;
+            current = null;
+            count--;
+        }
+    }
+
+    public void deleteNthNode(int pos) {
+        if (pos < 0 || pos >= count) {
+            System.out.println("Out Of Range");
+        } else if (pos == 0) {
+            removeFirst();
+        } else if (pos == count - 1) {
+            removeLast();
+        } else {
+            Node current = first.next;
+            for (int i = 1; i < pos; i++) {
+                current = current.next;
+            }
+            current.prev.next = current.next;
+            current.next.prev = current.prev;
+            current = null;
+            count--;
+        }
+    }
+
+    public void remove(int item) {
+        if (isEmpty()) {
+            System.out.println("Empty List Can't Remove");
+            return;
+        }
+
+        if (first.item == item) {
+            removeFirst();
+            return;
+        }
+
+        Node current = first.next;
+        while (current != null) {
+            if (current.item == item) {
+                break;
+            }
+            current = current.next;
+        }
+
+        if (current == null) {
+            System.out.println("The item is not there");
+        } else if (current.next == null) {
+            removeLast();
+        } else {
+            current.prev.next = current.next;
+            current.next.prev = current.prev;
+            current = null;
+            count--;
+        }
+    }
+
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Empty List Can't Display...!");
+        } else {
+            Node temp = first;
+            while (temp != null) {
+                System.out.print(temp.item + " ");
+                temp = temp.next;
+            }
+            System.out.println();
+        }
+    }
+
+    public void reverseDisplay() {
+        if (isEmpty()) {
+            System.out.println("Empty List Can't Display Reverse...!");
+        } else {
+            Node temp = last;
+            while (temp != null) {
+                System.out.print(temp.item + " ");
+                temp = temp.prev;
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        DoublyLinkedList dl = new DoublyLinkedList();
+        dl.insertAt(0, 4);
+        dl.insertAt(1, 6);
+        dl.insertAt(2, 7);
+        dl.insertFirst(2);
+        dl.insertLast(10);
+        dl.remove(7);
+        dl.display();
+        dl.reverseDisplay();
+    }
+}
