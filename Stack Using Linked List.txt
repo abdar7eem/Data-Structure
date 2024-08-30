@@ -1,0 +1,68 @@
+public class Stack {
+    private class StackNode {
+        int item;
+        StackNode next;
+    }
+
+    private StackNode topPtr;
+
+    public Stack() {
+        topPtr = null;
+    }
+
+    public boolean isEmpty() {
+        return topPtr == null;
+    }
+
+    public void push(int newItem) {
+        StackNode newPtr = new StackNode();
+        newPtr.item = newItem;
+        newPtr.next = topPtr;
+        topPtr = newPtr;
+    }
+
+    public void pop() {
+        if (isEmpty()) {
+            System.out.println("Stack empty on pop");
+        } else {
+            StackNode temp = topPtr;
+            topPtr = topPtr.next;
+            temp.next = null;
+        }
+    }
+
+    public void pop(int[] stackTop) {
+        if (isEmpty()) {
+            System.out.println("Stack empty on pop");
+        } else {
+            stackTop[0] = topPtr.item;
+            StackNode temp = topPtr;
+            topPtr = topPtr.next;
+            temp.next = null;
+        }
+    }
+
+    public void getTop() {
+        if (isEmpty()) {
+            System.out.println("Stack empty on getTop");
+        } else {
+            System.out.println("Top Element of the stack is " + topPtr.item);
+        }
+    }
+
+    public void display() {
+        StackNode curPtr = topPtr;
+        System.out.print("Items in the stack: [ ");
+        while (curPtr != null) {
+            System.out.print(curPtr.item + " ");
+            curPtr = curPtr.next;
+        }
+        System.out.println("]");
+    }
+
+    public static void main(String[] args) {
+        Stack s = new Stack();
+        s.push(10);
+        s.display();
+    }
+}
