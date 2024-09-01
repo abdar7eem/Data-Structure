@@ -1,0 +1,101 @@
+import java.util.*;
+
+public class ArrayQueueType {
+    private int rear;
+    private int front;
+    private int length;
+    private int[] arr;
+    private int maxSize;
+
+    public ArrayQueueType(int size) {
+        if (size <= 0) {
+            maxSize = 100;
+        } else {
+            maxSize = size;
+        }
+        front = 0;
+        arr = new int[maxSize];
+        rear = maxSize - 1;
+        length = 0;
+    }
+
+    public boolean isEmpty() {
+        return length == 0;
+    }
+
+    public boolean isFull() {
+        return length == maxSize;
+    }
+
+    public void addQueue(int element) {
+        if (isFull()) {
+            System.out.println("Queue Full, Can't Enqueue ...!");
+        } else {
+            rear = (rear + 1) % maxSize;
+            arr[rear] = element;
+            length++;
+        }
+    }
+
+    public void deleteQueue() {
+        if (isEmpty()) {
+            System.out.println("Empty Queue, Can't Dequeue ...!");
+        } else {
+            front = (front + 1) % maxSize;
+            --length;
+        }
+    }
+
+    public int frontQueue() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue is empty!");
+        }
+        return arr[front];
+    }
+
+    public int rearQueue() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Queue is empty!");
+        }
+        return arr[rear];
+    }
+
+    public void printQueue() {
+        if (!isEmpty()) {
+            for (int i = front; i != rear; i = (i + 1) % maxSize) {
+                System.out.print(arr[i] + " ");
+            }
+            System.out.println(arr[rear]);
+        } else {
+            System.out.println("Empty Queue");
+        }
+    }
+
+    public int queueSearch(int element) {
+        int pos = -1;
+        if (!isEmpty()) {
+            for (int i = front; i != rear; i = (i + 1) % maxSize) {
+                if (arr[i] == element) {
+                    pos = i;
+                    break;
+                }
+            }
+            if (pos == -1 && arr[rear] == element) {
+                pos = rear;
+            }
+        } else {
+            System.out.println("Queue is empty!");
+        }
+        return pos;
+    }
+
+    public static void main(String[] args) {
+        ArrayQueueType q1 = new ArrayQueueType(5);
+        q1.addQueue(10);
+        q1.addQueue(20);
+        q1.addQueue(30);
+        q1.addQueue(40);
+        q1.addQueue(50);
+        q1.printQueue();
+    }
+}
