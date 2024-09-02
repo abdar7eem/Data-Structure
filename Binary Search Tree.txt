@@ -1,0 +1,245 @@
+import java.util.*;
+
+class NodeType {
+    int info;
+    NodeType left;
+    NodeType right;
+
+    public NodeType(int info) {
+        this.info = info;
+        left = right = null;
+    }
+}
+
+class BinarySearchTreeType {
+    private NodeType root;
+
+    public BinarySearchTreeType() {
+        root = null;
+    }
+
+    public boolean isEmpty() {
+        return root == null;
+    }
+
+    public boolean search(int item) {
+        NodeType current = root;
+        while (current != null) {
+            if (current.info == item)
+                return true;
+            else if (current.info > item)
+                current = current.left;
+            else
+                current = current.right;
+        }
+        return false;
+    }
+
+    public boolean searchRec(int item) {
+        return searchRecPriv(root, item);
+    }
+
+    private boolean searchRecPriv(NodeType p, int item) {
+        if (p == null)
+            return false;
+        else if (p.info == item)
+            return true;
+        else if (p.info > item)
+            return searchRecPriv(p.left, item);
+        else
+            return searchRecPriv(p.right, item);
+    }
+
+    public void insert(int item) {
+        NodeType newNode = new NodeType(item);
+        if (root == null) {
+            root = newNode;
+        } else {
+            NodeType current = root;
+            NodeType trailCurrent = null;
+            while (current != null) {
+                trailCurrent = current;
+                if (current.info == item) {
+                    System.out.println("The insert item is already in the list -- duplicates are not allowed.");
+                    return;
+                } else if (current.info > item) {
+                    current = current.left;
+                } else {
+                    current = current.right;
+                }
+            }
+            if (trailCurrent.info > item) {
+                trailCurrent.left = newNode;
+            } else {
+                trailCurrent.right = newNode;
+            }
+        }
+    }
+
+    public void remove(int item) {
+        if (root == null) {
+            System.out.println("Cannot delete from the empty tree.");
+            return;
+        }
+
+        if (root.info == item) {
+            deleteFromTree(root);
+            return;
+        }
+
+        NodeType current = root;
+        NodeType trailCurrent = root;
+
+        if (root.info > item) {
+            current = root.left;
+        } else {
+            current = root.right;
+        }
+
+        while (current != null) {
+            if (current.info == item)
+                break;
+            else {
+                trailCurrent = current;
+                if (current.info > item)
+                    current = current.left;
+                else
+                    current = current.right;
+            }
+        }
+
+        if (current == null) {
+            System.out.println("The delete item is not in the tree.");
+        } else if (trailCurrent.info > item) {
+            deleteFromTree(trailCurrent.left);
+        } else {
+            deleteFromTree(trailCurrent.right);
+        }
+    }
+
+    private void deleteFromTree(NodeType p) {
+        if (p.left == null && p.right == null) {
+            p = null;
+        } else if (p.left == null) {
+            p = p.right;
+        } else if (p.right == null) {
+            p = p.left;
+        } else {
+            NodeType current = p.left;
+            NodeType trailCurrent = null;
+
+            while (current.right != null) {
+                trailCurrent = current;
+                current = current.right;
+            }
+
+            p.info = current.info;
+
+            if (trailCurrent == null) {
+                p.left = current.left;
+            } else {
+                trailCurrent.right = current.left;
+            }
+        }
+    }
+
+    public void inorderTraversal() {
+        inorder(root);
+        System.out.println();
+    }
+
+    private void inorder(NodeType p) {
+        if (p != null) {
+            inorder(p.left);
+            System.out.print(p.info + " ");
+            inorder(p.right);
+        }
+    }
+
+    public void preorderTraversal() {
+        preorder(root);
+        System.out.println();
+    }
+
+    private void preorder(NodeType p) {
+        if (p != null) {
+            System.out.print(p.info + " ");
+            preorder(p.left);
+            preorder(p.right);
+        }
+    }
+
+    public void postorderTraversal() {
+        postorder(root);
+        System.out.println();
+    }
+
+    private void postorder(NodeType p) {
+        if (p != null) {
+            postorder(p.left);
+            postorder(p.right);
+            System.out.print(p.info + " ");
+        }
+    }
+
+    public int treeHeight() {
+        return height(root);
+    }
+
+    private int height(NodeType p) {
+        if (p == null)
+            return 0;
+        else
+            return 1 + Math.max(height(p.left), height(p.right));
+    }
+
+    public int treeNodeCount() {
+        return nodeCount(root);
+    }
+
+    private int nodeCount(NodeType p) {
+        if (p == null)
+            return 0;
+        else
+            return 1 + nodeCount(p.left) + nodeCount(p.right);
+    }
+
+    public int treeLeavesCount() {
+        return leavesCount(root);
+    }
+
+    private int leavesCount(NodeType p) {
+        if (p == null)
+            return 0;
+        else if (p.left == null && p.right == null)
+            return 1;
+        else
+            return leavesCount(p.left) + leavesCount(p.right);
+    }
+
+    public void clearTree() {
+        clear(root);
+        root = null;
+    }
+
+    private void clear(NodeType p) {
+        if (p != null) {
+            clear(p.left);
+            clear(p.right);
+            p = null;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        BinarySearchTreeType b = new BinarySearchTreeType();
+        b.insert(10);
+        b.insert(20);
+        b.insert(5);
+        b.remove(10);
+        b.inorderTraversal();
+        b.postorderTraversal();
+        b.preorderTraversal();
+    }
+}
